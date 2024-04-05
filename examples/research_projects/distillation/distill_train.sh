@@ -1,18 +1,20 @@
 #!/bin/bash
+#SBATCH --partition=gpu
 #SBATCH --nodes=1
-#SBATCH --ntasks=1
-#SBATCH --cpus-per-task=8
-#SBATCH --mem=64G
 #SBATCH --gres=gpu:1
-#SBATCH --time=24:00:00
-#SBATCH --output=train_distilbert.out
-#SBATCH --error=train_distilbert.err
-#SBATCH --job-name=distilbert_training
+#SBATCH --time=08:00:00
+#SBATCH --job-name=train_distil_1sub
+#SBATCH --mem=500G
+#SBATCH --ntasks=1
+#SBATCH --output=logs/distilltrain.%j.out
+#SBATCH --error=logs/distilltrain.%j.err
 
 # Load required modules
 module purge
 module load cuda/11.1
 module load cudnn/8.0-cuda-11.1
+
+cd /home/taira.e/transformers/examples/research_projects/distillation
 
 # Binarize the data
 python scripts/binarized_data.py \
