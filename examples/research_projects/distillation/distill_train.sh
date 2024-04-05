@@ -3,8 +3,8 @@
 #SBATCH --nodes=1
 #SBATCH --gres=gpu:1
 #SBATCH --time=08:00:00
-#SBATCH --job-name=train_distil_1sub
-#SBATCH --mem=500G
+#SBATCH --job-name=distilltrain
+#SBATCH --mem=200G
 #SBATCH --ntasks=1
 #SBATCH --output=logs/distilltrain.%j.out
 #SBATCH --error=logs/distilltrain.%j.err
@@ -16,6 +16,8 @@ conda install pytorch torchvision torchaudio pytorch-cuda=12.1 -c pytorch -c nvi
 python -c'import torch; print(torch.cuda.is_available())'
 
 #cd /home/taira.e/transformers/examples/research_projects/distillation
+
+pip install -r requirements.txt
 
 # Binarize the data
 python scripts/binarized_data.py \
