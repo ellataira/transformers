@@ -9,12 +9,13 @@
 #SBATCH --output=logs/distilltrain.%j.out
 #SBATCH --error=logs/distilltrain.%j.err
 
-# Load required modules
-module purge
-module load cuda/11.1
-module load cudnn/8.0-cuda-11.1
+module load anaconda3/2022.05 cuda/12.1
+conda create --name pytorch_env python=3.9 -y
+conda activate pytorch_env
+conda install pytorch torchvision torchaudio pytorch-cuda=12.1 -c pytorch -c nvidia -y
+python -c'import torch; print(torch.cuda.is_available())'
 
-cd /home/taira.e/transformers/examples/research_projects/distillation
+#cd /home/taira.e/transformers/examples/research_projects/distillation
 
 # Binarize the data
 python scripts/binarized_data.py \
