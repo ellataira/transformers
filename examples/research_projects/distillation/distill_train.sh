@@ -47,8 +47,9 @@ python train.py \
     --freeze_pos_embs \
     --dump_path /scratch/taira.e/models \
     --data_file /scratch/taira.e/binarized_text.bert-base-uncased.pickle \
-    --token_counts /scratch/taira.e/token_counts.bert-base-uncased.pickle \
-    & distill_pid=$!
+    --token_counts /scratch/taira.e/token_counts.bert-base-uncased.pickle &
+
+distill_pid=$!
 
 
 

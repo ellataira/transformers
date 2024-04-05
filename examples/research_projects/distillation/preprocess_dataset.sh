@@ -15,6 +15,16 @@ conda activate pytorch_env
 conda install pytorch torchvision torchaudio pytorch-cuda=12.1 -c pytorch -c nvidia -y
 python -c'import torch; print(torch.cuda.is_available())'
 
+
+
+"""
+error on training w dataset.txt:
+
+Token indices sequence length is longer than the specified maximum sequence length for this model (3092 > 512).
+Running this sequence through the model will result in indexing errors
+"""
+
+
 # # Run your Python script
 # python preprocess_dataset.py
 # Run your Python script in the background
