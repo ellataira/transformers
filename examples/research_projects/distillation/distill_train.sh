@@ -53,7 +53,7 @@ python train.py \
 
 
 # Start continuous monitoring while the bert-vocab command is running
-while ps -p distill_pid > /dev/null; do
+while ps -p $distill_pid > /dev/null; do
    # Get timestamp
     timestamp=$(date +"%Y-%m-%d %H:%M:%S")
 
