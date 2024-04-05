@@ -1,0 +1,66 @@
+#!/bin/bash
+#SBATCH --nodes=1
+#SBATCH --ntasks=1
+#SBATCH --cpus-per-task=8
+#SBATCH --mem=64G
+#SBATCH --gres=gpu:1
+#SBATCH --time=24:00:00
+#SBATCH --output=train_distilbert.out
+#SBATCH --error=train_distilbert.err
+#SBATCH --job-name=distilbert_training
+
+# Load required modules
+module purge
+module load cuda/11.1
+module load cudnn/8.0-cuda-11.1
+
+# Binarize the data
+python scripts/binarized_data.py \
+    --file_path /scratch/taira.e/c4_10_dataset_distill.txt \
+    --tokenizer_type bert \
+    --tokenizer_name bert-base-uncased \
+    --dump_file /scratch/taira.e/binarized_text
+
+# Compute token counts
+python scripts/token_counts.py \
+    --data_file /scratch/taira.e/binarized_text.bert-base-uncased.pickle \
+    --token_counts_dump /scratch/taira.e/token_counts.bert-base-uncased.pickle \
+    --vocab_size 30522
+
+# Kill any previous training processes
+pkill -f 'python -u train.py'
+
+# Start training
+python train.py \
+    --force \
+    --n_gpu 1 \
+    --student_type distilbert \
+    --student_config training_configs/distilbert-base-uncased.json \
+    --teacher_type bert \
+    --teacher_name bert-base-uncased \
+    --alpha_ce 0.33 --alpha_mlm 0.33 --alpha_cos 0.33 --alpha_clm 0.0 --mlm \
+    --freeze_pos_embs \
+    --dump_path /scratch/taira.e/models \
+    --data_file /scratch/taira.e/binarized_text.bert-base-uncased.pickle \
+    --token_counts /scratch/taira.e/token_counts.bert-base-uncased.pickle \
+    & distill_pid=$!
+
+
+
+# Start continuous monitoring while the bert-vocab command is running
+while ps -p distill_pid > /dev/null; do
+   # Get timestamp
+    timestamp=$(date +"%Y-%m-%d %H:%M:%S")
+
+    # Get GPU power draw and append to CSV file
+    power_draw=$(nvidia-smi --query-gpu=power.draw --format=csv,noheader,nounits)
+    echo "$timestamp,$power_draw" >> /home/taira.e/power_stats/distill_train4_5.csv
+
+    sleep 600  # 10 mins
+
+done
+
+wait $distill_pid
+
+deactivate
+

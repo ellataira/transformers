@@ -15,7 +15,6 @@ conda activate pytorch_env
 conda install pytorch torchvision torchaudio pytorch-cuda=12.1 -c pytorch -c nvidia -y
 python -c'import torch; print(torch.cuda.is_available())'
 
-
 # Install required Python packages
 pip install datasets bert-pytorch
 #pip uninstall codecarbon
