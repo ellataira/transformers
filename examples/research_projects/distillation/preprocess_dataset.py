@@ -13,7 +13,7 @@ Define the size of the subset you want to create
 c4 en train set = 364868892 = 305 gb
 """
 
-subset_size = 36000000 # ~ 10% of corpus
+subset_size = 1000000 
 
 # Iterate over the dataset and write the text to the file
 for i, example in enumerate(dataset):
@@ -27,8 +27,8 @@ for i, example in enumerate(dataset):
     #     text_file.write(f"{sentence}\n")
     for s in re.split(sentence_pattern, example['text']):
         if s.strip():
-            to_add = s.strip()
-            text_file.write(f"{to_add}\n")
+            trimmed_sentence = " ".join(s.strip().split()[:512])
+            text_file.write(f"{trimmed_sentence}\n")
 
 # Close the file
 text_file.close()
