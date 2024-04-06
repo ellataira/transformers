@@ -19,20 +19,6 @@ python -c'import torch; print(torch.cuda.is_available())'
 
 pip install -r requirements.txt
 
-# Binarize the data
-python scripts/binarized_data.py \
-    --file_path /scratch/taira.e/c4_10_dataset_distill.txt \
-    --tokenizer_type bert \
-    --tokenizer_name bert-base-uncased \
-    --dump_file /scratch/taira.e/binarized_text
-
-# Compute token counts
-python scripts/token_counts.py \
-    --data_file /scratch/taira.e/binarized_text.bert-base-uncased.pickle \
-    --token_counts_dump /scratch/taira.e/token_counts.bert-base-uncased.pickle \
-    --vocab_size 30522
-
-# Kill any previous training processes
 pkill -f 'python -u train.py'
 
 # Start training
@@ -60,7 +46,7 @@ while ps -p $distill_pid > /dev/null; do
 
     # Get GPU power draw and append to CSV file
     power_draw=$(nvidia-smi --query-gpu=power.draw --format=csv,noheader,nounits)
-    echo "$timestamp,$power_draw" >> /home/taira.e/power_stats/distill_train4_5.csv
+    echo "$timestamp,$power_draw" >> /home/taira.e/power_stats/distill_train4_6.csv
 
     sleep 600  # 10 mins
 
