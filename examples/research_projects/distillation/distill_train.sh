@@ -3,11 +3,11 @@
 #SBATCH --nodes=1
 #SBATCH --gres=gpu:1
 #SBATCH --time=08:00:00
-#SBATCH --job-name=distilltrain
+#SBATCH --job-name=distilltrain4.7
 #SBATCH --mem=200G
 #SBATCH --ntasks=1
-#SBATCH --output=logs/distilltrain.%j.out
-#SBATCH --error=logs/distilltrain.%j.err
+#SBATCH --output=logs/distilltrain47.%j.out
+#SBATCH --error=logs/distilltrain47.%j.err
 
 module load anaconda3/2022.05 cuda/12.1
 conda create --name pytorch_env python=3.9 -y
