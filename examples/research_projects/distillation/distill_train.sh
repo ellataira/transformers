@@ -4,7 +4,7 @@
 #SBATCH --gres=gpu:v100-sxm2:1
 #SBATCH --time=08:00:00
 #SBATCH --job-name=distilltrain4.8
-#SBATCH --mem=200G
+#SBATCH --mem=10G
 #SBATCH --ntasks=1
 #SBATCH --output=logs/distilltrain48.%j.out
 #SBATCH --error=logs/distilltrain48.%j.err
