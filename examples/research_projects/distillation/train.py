@@ -255,7 +255,10 @@ def main():
         special_tok_ids[tok_name] = tokenizer.all_special_ids[idx]
     logger.info(f"Special tokens {special_tok_ids}")
     args.special_tok_ids = special_tok_ids
-    args.max_model_input_size = tokenizer.max_model_input_sizes[args.teacher_name]
+    # args.max_model_input_size = tokenizer.max_model_input_sizes[args.teacher_name]
+    args.max_model_input_size = tokenizer.max_model_input_sizes.get(f'google-bert/{args.teacher_name}', None)
+    if args.max_model_input_size is None:
+        raise ValueError(f"Max input size for model '{args.teacher_name}' not found in max_model_input_sizes.")
 
     # DATA LOADER #
     logger.info(f"Loading data from {args.data_file}")

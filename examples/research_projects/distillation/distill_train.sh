@@ -11,13 +11,13 @@
 
 module load anaconda3/2022.05 cuda/12.1
 #conda create --name pytorch_env python=3.9 -y
-source activate greenai
+conda activate greenai
 #conda install pytorch torchvision torchaudio pytorch-cuda=12.1 -c pytorch -c nvidia -y
 python -c'import torch; print(torch.cuda.is_available())'
 
-#cd /home/taira.e/transformers/examples/research_projects/distillation
+cd /home/taira.e/transformers/examples/research_projects/distillation
 
-pip install -r requirements.txt
+#pip install -r requirements.txt
 
 pkill -f 'python -u train.py'
 
