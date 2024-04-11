@@ -3,7 +3,10 @@ from transformers import RobertaTokenizer, RobertaConfig
 tokenizer = RobertaTokenizer.from_pretrained("FacebookAI/roberta-base")
 config = RobertaConfig.from_pretrained("FacebookAI/roberta-base")
 
+print("Saving tokenizer...")
 tokenizer.save_pretrained("scratch/taira.e/english-roberta-base")
+
+print("Saving configuration...")
 config.save_pretrained("scratch/taira.e/english-roberta-base")
 
 
