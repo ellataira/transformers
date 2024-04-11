@@ -48,7 +48,7 @@ while ps -p $distill_pid > /dev/null; do
     power_draw=$(nvidia-smi --query-gpu=power.draw --format=csv,noheader,nounits)
     echo "$timestamp,$power_draw" >> /home/taira.e/power_stats/distill_train4_8.csv
 
-    sleep 600  # 10 mins
+    sleep 300  # 5 mins
 
 done
 
